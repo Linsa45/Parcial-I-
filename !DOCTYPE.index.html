@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Supermercado Casa Edwin</title>
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #FFFBEA;
+      color: #1E3A8A;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ── HEADER ── */
+    header {
+      background: #1E3A8A;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      gap: 16px;
+    }
+    .logo-wrap img {
+      height: 64px;
+      width: auto;
+      border-radius: 6px;
+    }
+    nav { display: flex; gap: 6px; flex-wrap: wrap; }
+    nav a {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 8px 14px;
+      border-radius: 25px;
+      transition: background 0.2s, color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    nav a:hover, nav a.active {
+      background: #FFD700;
+      color: #1E3A8A;
+    }
+
+    /* ── HERO / INICIO ── */
+    #inicio {
+      background: linear-gradient(135deg, #FFD700 0%, #FFF176 60%, #FFFBEA 100%);
+      padding: 70px 20px 60px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #16A34A;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    #inicio h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: #1E3A8A;
+      font-weight: 900;
+      max-width: 720px;
+      margin: 0 auto 16px;
+      line-height: 1.2;
+    }
+    #inicio p {
+      font-size: 1.1rem;
+      color: #374151;
+      max-width: 580px;
+      margin: 0 auto 32px;
+    }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: #1E3A8A;
+      color: #FFD700;
+      font-weight: 800;
+      padding: 13px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: #162d6e; transform: translateY(-2px); }
+    .btn-secondary {
+      background: #16A34A;
+      color: #fff;
+      font-weight: 800;
+      padding: 13px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { background: #15803d; transform: translateY(-2px); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: #1E3A8A;
+      color: #FFD700;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      flex: 1;
+      min-width: 160px;
+      text-align: center;
+      padding: 18px 20px;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item strong {
+      display: block;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #FFD700;
+    }
+    .stat-item span {
+      font-size: 0.82rem;
+      color: #CBD5E1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .section-title h2 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 900;
+      color: #1E3A8A;
+    }
+    .section-title p { color: #6B7280; margin-top: 8px; font-size: 1rem; }
+    .underline-bar {
+      width: 60px; height: 4px;
+      background: #16A34A;
+      border-radius: 4px;
+      margin: 10px auto 0;
+    }
+
+    /* ── PRODUCTOS ── */
+    #productos { padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 22px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(30,58,138,0.09);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(30,58,138,0.16);
+    }
+    .product-img {
+      background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+    }
+    .product-info { padding: 14px 16px 18px; flex: 1; display: flex; flex-direction: column; }
+    .product-category-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #16A34A;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+    }
+    .product-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #1E3A8A;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .product-price {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #1E3A8A;
+      margin-bottom: 14px;
+    }
+    .product-price span { font-size: 0.85rem; font-weight: 500; color: #6B7280; }
+    .btn-detail {
+      background: #1E3A8A;
+      color: #FFD700;
+      border: none;
+      border-radius: 25px;
+      padding: 9px 0;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: auto;
+      transition: background 0.2s;
+      letter-spacing: 0.03em;
+    }
+    .btn-detail:hover { background: #162d6e; }
+
+    /* ── CATEGORÍAS ── */
+    #categorias {
+      background: linear-gradient(180deg, #EFF6FF 0%, #FFFBEA 100%);
+      padding: 60px 20px;
+    }
+    .cat-inner { max-width: 1100px; margin: 0 auto; }
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 18px;
+    }
+    .cat-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 30px 16px 22px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(30,58,138,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border-top: 4px solid transparent;
+    }
+    .cat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 22px rgba(30,58,138,0.14);
+      border-top-color: #FFD700;
+    }
+    .cat-icon { font-size: 2.8rem; margin-bottom: 12px; }
+    .cat-card h3 { font-size: 1rem; font-weight: 800; color: #1E3A8A; margin-bottom: 4px; }
+    .cat-card p { font-size: 0.8rem; color: #6B7280; }
+
+    /* ── OFERTAS ── */
+    #ofertas { padding: 60px 20px; max-width: 1200px; margin: 0 auto; }
+    .ofertas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 22px;
+    }
+    .oferta-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 14px rgba(30,58,138,0.1);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .oferta-card:hover { transform: translateY(-4px); }
+    .oferta-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #DC2626;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      z-index: 1;
+    }
+    .oferta-img {
+      background: linear-gradient(135deg, #FEF9C3, #FEF3C7);
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.2rem;
+    }
+    .oferta-info { padding: 14px 16px 18px; }
+    .oferta-info h3 { font-size: 1rem; font-weight: 800; color: #1E3A8A; margin-bottom: 8px; }
+    .price-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .price-original {
+      font-size: 0.9rem;
+      color: #9CA3AF;
+      text-decoration: line-through;
+    }
+    .price-oferta {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: #16A34A;
+    }
+    .discount-tag {
+      background: #DCFCE7;
+      color: #16A34A;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+    .btn-oferta {
+      background: #16A34A;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 9px 0;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .btn-oferta:hover { background: #15803d; }
+
+    /* ── CONTACTO ── */
+    #contacto {
+      background: #1E3A8A;
+      padding: 60px 20px;
+      color: #fff;
+    }
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: start;
+    }
+    #contacto .section-title h2 { color: #FFD700; text-align: left; }
+    #contacto .section-title p { color: #CBD5E1; text-align: left; }
+    #contacto .underline-bar { margin-left: 0; }
+    .contact-info-list { list-style: none; margin-top: 28px; display: flex; flex-direction: column; gap: 18px; }
+    .contact-info-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.97rem;
+      color: #E0E7FF;
+      line-height: 1.5;
+    }
+    .contact-icon {
+      background: #FFD700;
+      color: #1E3A8A;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      font-weight: 900;
+    }
+    .contact-info-list li strong { display: block; color: #FFD700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+
+    /* FORM */
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: rgba(255,255,255,0.45); }
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: #FFD700; }
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+    .btn-send {
+      background: #FFD700;
+      color: #1E3A8A;
+      border: none;
+      border-radius: 30px;
+      padding: 13px 0;
+      font-weight: 900;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.03em;
+    }
+    .btn-send:hover { background: #f5c800; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0F2261;
+      color: #94A3B8;
+      text-align: center;
+      padding: 22px 20px;
+      font-size: 0.88rem;
+    }
+    footer strong { color: #FFD700; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .header-inner { flex-direction: column; gap: 10px; }
+      nav { justify-content: center; }
+      .contact-inner { grid-template-columns: 1fr; gap: 36px; }
+      .form-row { grid-template-columns: 1fr; }
+      #contacto .section-title h2,
+      #contacto .section-title p { text-align: center; }
+      #contacto .underline-bar { margin: 10px auto 0; }
+    }
+    @media (max-width: 480px) {
+      nav a { padding: 7px 10px; font-size: 0.82rem; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .stat-item { min-width: 130px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<header>
+  <div class="header-inner">
+    <a href="#inicio" class="logo-wrap">
+      <img src="data:image/png;base64,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1fVvq6qOOsNQzeQG5DixnMta3OGgZyvHhVpmXTGlIaavp6Nt2mklmrpqcZ7R75XuALsAuADgBnphV93diiLk07t7i1zWsGrnOouJIJBDdIEjmSDtKlZh7Els2zNwZ7I8PBYxsmghexYzWUoupbvFF+kD25bjOdm7d059Oi+7xp/Q9nhjmu9RT2+KWQRxvqa8xB7z0aC5wyfctXpbSN8tuppxX23TlXbjd6q6NuMu6Ssc6XPZta0tAjc0Hbu3O9EYACyeIem9QXLVFtvNnpbTXsprfV0hp7jK5jYnyhuJW4Y7ccNwRy5esZW7NP6/TtxfO0FpJdrEEgEgAzDdUDZ27Z332Ufqqy9GXfVWTPLSPhuthQaW0fX0MdfQltTSSNLmTxVjnxuA6kODsEcitHaWaBvGqhYbOBcsULqt9VS1/aQs2yCPYS1x9LJz8B8FsYNI3FnBNui46mKnuRs3mbpWvJYJSzDvSxnaSSM4zg5wsfh1pm923VNfebxbrRbmSWykoaaC3zmQARb9xcSxvM5b+4Ac8ZOWVqLbe7qm8c4sLhTGuCRIDXRMukEnbYaTPMIcRZlzB9WYJieyPxHL/JWXW2TQVDc6a11tZS01fVf9PTS3Atll9XotLsn9y2TdE6ca4HzOQ49Rnfj/ADUQv+gb7c9V3YkWt1rutyoq+Svkkd53Tspwz9Qxm3HMs5O3AAOdyJVpKtyt062pUTb3jnuc2XDUdtmnodty5sHfs6uTgBLRw9i5ztVswRy7I+H4/ivKlggpadlPTxMiiYMNYwYAC9URcs5xcZPNXTWhoAAgBERFhZREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREREX/2Q==" alt="Supermercado Casa Edwin" />
+    </a>
+    <nav>
+      <a href="#inicio" class="active">🏠 Inicio</a>
+      <a href="#productos">🛒 Productos</a>
+      <a href="#categorias">📦 Categorías</a>
+      <a href="#ofertas">🏷️ Ofertas</a>
+      <a href="#contacto">📞 Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══════════════════════ INICIO ═══════════════════════ -->
+<section id="inicio">
+  <span class="hero-badge">✅ Catálogo Informativo Oficial</span>
+  <h1>Consulta nuestros productos y ofertas desde cualquier lugar</h1>
+  <p>En <strong>Supermercado Casa Edwin</strong> encontrarás todo lo que tu hogar necesita. Calidad, variedad y los mejores precios de la zona.</p>
+  <div class="hero-btns">
+    <a href="#productos" class="btn-primary">Ver Productos</a>
+    <a href="#ofertas" class="btn-secondary">Ver Ofertas del Día</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════ STATS BAR ═══════════════════════ -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <strong>+500</strong>
+    <span>Productos disponibles</span>
+  </div>
+  <div class="stat-item">
+    <strong>5</strong>
+    <span>Categorías principales</span>
+  </div>
+  <div class="stat-item">
+    <strong>6 días</strong>
+    <span>A la semana</span>
+  </div>
+  <div class="stat-item">
+    <strong>15+ años</strong>
+    <span>Sirviendo a la comunidad</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PRODUCTOS ═══════════════════════ -->
+<section id="productos">
+  <div class="section-title">
+    <h2>Nuestros Productos</h2>
+    <p>Una selección de los artículos más solicitados por nuestros clientes</p>
+    <div class="underline-bar"></div>
+  </div>
+  <div class="products-grid">
+
+    <div class="product-card">
+      <div class="product-img">🍚</div>
+      <div class="product-info">
+        <span class="product-category-tag">Alimentos</span>
+        <div class="product-name">Arroz Grano de Oro 5 lb</div>
+        <div class="product-price">RD$&nbsp;180.00 <span>/ unidad</span></div>
+        <button class="btn-detail">Ver detalles</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🛢️</div>
+      <div class="product-info">
+        <span class="product-category-tag">Alimentos</span>
+        <div class="product-name">Aceite Vegetal 1 litro</div>
+        <div class="product-price">RD$&nbsp;215.00 <span>/ unidad</span></div>
+        <button class="btn-detail">Ver detalles</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🥛</div>
+      <div class="product-info">
+        <span class="product-category-tag">Bebidas</span>
+        <div class="product-name">Leche Entera Parmalat 1 lt</div>
+        <div class="product-price">RD$&nbsp;130.00 <span>/ unidad</span></div>
+        <button class="btn-detail">Ver detalles</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🫧</div>
+      <div class="product-info">
+        <span class="product-category-tag">Limpieza</span>
+        <div class="product-name">Detergente en Polvo 2 kg</div>
+        <div class="product-price">RD$&nbsp;295.00 <span>/ unidad</span></div>
+        <button class="btn-detail">Ver detalles</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🧴</div>
+      <div class="product-info">
+        <span class="product-category-tag">Cuidado Personal</span>
+        <div class="product-name">Shampoo Pantene 400 ml</div>
+        <div class="product-price">RD$&nbsp;340.00 <span>/ unidad</span></div>
+        <button class="btn-detail">Ver detalles</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🧻</div>
+      <div class="product-info">
+        <span class="product-category-tag">Hogar</span>
+        <div class="product-name">Papel Higiénico x 12 rollos</div>
+        <div class="product-price">RD$&nbsp;395.00 <span>/ paquete</span></div>
+        <button class="btn-detail">Ver detalles</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🥫</div>
+      <div class="product-info">
+        <span class="product-category-tag">Alimentos</span>
+        <div class="product-name">Habichuelas Negras Lata</div>
+        <div class="product-price">RD$&nbsp;85.00 <span>/ unidad</span></div>
+        <button class="btn-detail">Ver detalles</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-img">🥤</div>
+      <div class="product-info">
+        <span class="product-category-tag">Bebidas</span>
+        <div class="product-name">Jugo Tropical 1.5 litros</div>
+        <div class="product-price">RD$&nbsp;165.00 <span>/ unidad</span></div>
+        <button class="btn-detail">Ver detalles</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ CATEGORÍAS ═══════════════════════ -->
+<section id="categorias">
+  <div class="cat-inner">
+    <div class="section-title">
+      <h2>Categorías</h2>
+      <p>Explora todos los departamentos de nuestra tienda</p>
+      <div class="underline-bar"></div>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-icon">🍞</div>
+        <h3>Alimentos</h3>
+        <p>Granos, enlatados, lácteos y más</p>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🥤</div>
+        <h3>Bebidas</h3>
+        <p>Jugos, refrescos, aguas y leches</p>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🧹</div>
+        <h3>Limpieza</h3>
+        <p>Desinfectantes, detergentes y más</p>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🧴</div>
+        <h3>Cuidado Personal</h3>
+        <p>Higiene y belleza personal</p>
+      </div>
+      <div class="cat-card">
+        <div class="cat-icon">🏠</div>
+        <h3>Hogar</h3>
+        <p>Artículos para el hogar y cocina</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ OFERTAS ═══════════════════════ -->
+<section id="ofertas">
+  <div class="section-title">
+    <h2>🏷️ Ofertas del Día</h2>
+    <p>Aprovecha nuestras promociones especiales — válidas hasta agotar existencias</p>
+    <div class="underline-bar"></div>
+  </div>
+  <div class="ofertas-grid">
+
+    <div class="oferta-card">
+      <span class="oferta-badge">🔥 Oferta</span>
+      <div class="oferta-img">🍗</div>
+      <div class="oferta-info">
+        <h3>Pollo Entero (lb)</h3>
+        <div class="price-row">
+          <span class="price-original">RD$ 95.00</span>
+          <span class="price-oferta">RD$ 75.00</span>
+          <span class="discount-tag">-21%</span>
+        </div>
+        <button class="btn-oferta">Ver oferta</button>
+      </div>
+    </div>
+
+    <div class="oferta-card">
+      <span class="oferta-badge">🔥 Oferta</span>
+      <div class="oferta-img">🫙</div>
+      <div class="oferta-info">
+        <h3>Pasta Tomato 2 latas</h3>
+        <div class="price-row">
+          <span class="price-original">RD$ 130.00</span>
+          <span class="price-oferta">RD$ 98.00</span>
+          <span class="discount-tag">-25%</span>
+        </div>
+        <button class="btn-oferta">Ver oferta</button>
+      </div>
+    </div>
+
+    <div class="oferta-card">
+      <span class="oferta-badge">🔥 Oferta</span>
+      <div class="oferta-img">🧼</div>
+      <div class="oferta-info">
+        <h3>Jabón de Baño 3-pack</h3>
+        <div class="price-row">
+          <span class="price-original">RD$ 185.00</span>
+          <span class="price-oferta">RD$ 140.00</span>
+          <span class="discount-tag">-24%</span>
+        </div>
+        <button class="btn-oferta">Ver oferta</button>
+      </div>
+    </div>
+
+    <div class="oferta-card">
+      <span class="oferta-badge">🔥 Oferta</span>
+      <div class="oferta-img">☕</div>
+      <div class="oferta-info">
+        <h3>Café Molido 250 g</h3>
+        <div class="price-row">
+          <span class="price-original">RD$ 220.00</span>
+          <span class="price-oferta">RD$ 175.00</span>
+          <span class="discount-tag">-20%</span>
+        </div>
+        <button class="btn-oferta">Ver oferta</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ CONTACTO ═══════════════════════ -->
+<section id="contacto">
+  <div class="contact-inner">
+    <div>
+      <div class="section-title">
+        <h2>Encuéntranos</h2>
+        <p>Estamos listos para servirte. Visítanos o escríbenos.</p>
+        <div class="underline-bar"></div>
+      </div>
+      <ul class="contact-info-list">
+        <li>
+          <div class="contact-icon">📍</div>
+          <div>
+            <strong>Dirección</strong>
+            Calle Principal #45, Sector La Esperanza<br>Santo Domingo, República Dominicana
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">📞</div>
+          <div>
+            <strong>Teléfono</strong>
+            (809) 555-0142 &nbsp;|&nbsp; (829) 555-0198
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">🕐</div>
+          <div>
+            <strong>Horario de Atención</strong>
+            Lunes a Sábado: 7:00 a.m. – 9:00 p.m.<br>
+            Domingo: 8:00 a.m. – 2:00 p.m.
+          </div>
+        </li>
+        <li>
+          <div class="contact-icon">✉️</div>
+          <div>
+            <strong>Correo Electrónico</strong>
+            info@supercasaedwin.com.do
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="section-title" style="text-align:left;">
+        <h2 style="color:#FFD700;">Escríbenos</h2>
+        <p style="color:#CBD5E1;">Completa el formulario y te responderemos a la brevedad.</p>
+        <div class="underline-bar" style="margin-left:0;"></div>
+      </div>
+      <form class="contact-form" onsubmit="alert('¡Gracias por tu mensaje! Nos comunicaremos pronto.'); return false;">
+        <div class="form-row">
+          <input type="text" placeholder="Tu nombre" required />
+          <input type="email" placeholder="Tu correo electrónico" required />
+        </div>
+        <input type="text" placeholder="Asunto (opcional)" />
+        <textarea placeholder="Escribe tu mensaje aquí..."></textarea>
+        <button type="submit" class="btn-send">📨 Enviar Mensaje</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer>
+  <p>© 2025 <strong>Supermercado Casa Edwin</strong> — Todos los derechos reservados &nbsp;|&nbsp; Hecho con ❤️ para nuestra comunidad</p>
+</footer>
+
+</body>
+</html>
